@@ -221,6 +221,7 @@ header h1 {
   cursor: pointer;
   font-weight: 600;
   transition: all 0.2s;
+  font-size: 0.9rem;
 }
 
 .btn-primary {
@@ -230,6 +231,21 @@ header h1 {
 
 .btn-primary:hover {
   background: #5568d3;
+}
+
+.btn-secondary {
+  background: #e9ecef;
+  color: #495057;
+  margin-right: 0.5rem;
+}
+
+.btn-secondary:hover {
+  background: #dee2e6;
+}
+
+.editor-actions {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .result-section {
@@ -287,4 +303,28 @@ tr:hover {
   color: #721c24;
   border-radius: 6px;
   margin-top: 1rem;
+}
+
+.hint-section {
+  margin-bottom: 1rem;
+}
+
+.hint-box {
+  padding: 1rem;
+  background: #fff3cd;
+  border-left: 4px solid #ffc107;
+  border-radius: 6px;
+  line-height: 1.6;
+}
+
+.explanation-section {
+  margin-top: 1.5rem;
+}
+
+.explanation-box {
+  padding: 1rem;
+  background: #d1ecf1;
+  border-left: 4px solid #17a2b8;
+  border-radius: 6px;
+  line-height: 1.6;
 }

@@ -87,6 +87,16 @@ function displayProblem() {
   document.getElementById('problemDescription').textContent = currentProblem.description;
   document.getElementById('sqlEditor').value = '';
   document.getElementById('resultSection').style.display = 'none';
+  document.getElementById('hintSection').style.display = 'none';
+  document.getElementById('explanationSection').style.display = 'none';
+  
+  // Show/hide hint button based on availability
+  const showHintBtn = document.getElementById('showHintBtn');
+  if (currentProblem.hint) {
+    showHintBtn.style.display = 'inline-block';
+  } else {
+    showHintBtn.style.display = 'none';
+  }
   
   // Update active state
   document.querySelectorAll('.problem-item').forEach(item => {
@@ -172,8 +182,27 @@ function displayResults(data) {
   resultTable.innerHTML = html;
 }
 
+function showHint() {
+  if (currentProblem && currentProblem.hint) {
+    document.getElementById('hintText').textContent = currentProblem.hint;
+    document.getElementById('hintSection').style.display = 'block';
+  }
+}
+
+function showSolution() {
+  if (currentProblem && currentProblem.solution) {
+    document.getElementById('sqlEditor').value = currentProblem.solution;
+    if (currentProblem.explanation) {
+      document.getElementById('explanationText').textContent = currentProblem.explanation;
+      document.getElementById('explanationSection').style.display = 'block';
+    }
+  }
+}
+
 // Event listeners
 document.getElementById('runBtn').addEventListener('click', executeQuery);
+document.getElementById('showHintBtn').addEventListener('click', showHint);
+document.getElementById('showSolutionBtn').addEventListener('click', showSolution);
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
