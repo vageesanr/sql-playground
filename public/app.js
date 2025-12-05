@@ -3,6 +3,8 @@ const API_BASE = 'http://localhost:3010/api';
 let problems = [];
 let currentProblem = null;
 let currentFilter = 'all';
+let editor = null;
+let currentSchema = {};
 
 // Load problems on startup
 async function loadProblems() {
@@ -20,7 +22,9 @@ async function loadSchema(type = 'basic') {
   try {
     const response = await fetch(`${API_BASE}/schema?type=${type}`);
     const schema = await response.json();
+    currentSchema = schema;
     displaySchema(schema, type);
+    updateEditorHints(schema);
   } catch (error) {
     console.error('Failed to load schema:', error);
   }
@@ -85,7 +89,11 @@ function displayProblem() {
   document.getElementById('problemDifficulty').textContent = currentProblem.difficulty;
   document.getElementById('problemDifficulty').className = `badge ${currentProblem.difficulty}`;
   document.getElementById('problemDescription').textContent = currentProblem.description;
-  document.getElementById('sqlEditor').value = '';
+  
+  if (editor) {
+    editor.setValue('');
+  }
+  
   document.getElementById('resultSection').style.display = 'none';
   document.getElementById('hintSection').style.display = 'none';
   document.getElementById('explanationSection').style.display = 'none';
@@ -105,7 +113,7 @@ function displayProblem() {
 }
 
 async function executeQuery() {
-  const query = document.getElementById('sqlEditor').value.trim();
+  const query = editor ? editor.getValue().trim() : '';
   
   if (!query) {
     alert('Please enter a SQL query');
@@ -191,12 +199,45 @@ function showHint() {
 
 function showSolution() {
   if (currentProblem && currentProblem.solution) {
-    document.getElementById('sqlEditor').value = currentProblem.solution;
+    if (editor) {
+      editor.setValue(currentProblem.solution);
+    }
     if (currentProblem.explanation) {
       document.getElementById('explanationText').textContent = currentProblem.explanation;
       document.getElementById('explanationSection').style.display = 'block';
     }
   }
+}
+
+// Initialize CodeMirror editor
+function initEditor() {
+  const container = document.getElementById('sqlEditorContainer');
+  editor = CodeMirror(container, {
+    mode: 'text/x-sql',
+    theme: 'material',
+    lineNumbers: true,
+    lineWrapping: true,
+    autofocus: false,
+    extraKeys: {
+      'Ctrl-Space': 'autocomplete',
+      'Cmd-Space': 'autocomplete'
+    },
+    hintOptions: {
+      tables: {}
+    }
+  });
+}
+
+// Update editor hints with current schema
+function updateEditorHints(schema) {
+  if (!editor) return;
+  
+  const tables = {};
+  for (const [tableName, tableData] of Object.entries(schema)) {
+    tables[tableName] = tableData.columns.map(col => col.name);
+  }
+  
+  editor.setOption('hintOptions', { tables });
 }
 
 // Event listeners
@@ -214,5 +255,6 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 });
 
 // Initialize
+initEditor();
 loadProblems();
 loadSchema();

@@ -198,19 +198,29 @@ header h1 {
   font-weight: 600;
 }
 
-#sqlEditor {
-  width: 100%;
-  min-height: 200px;
-  padding: 1rem;
+#sqlEditorContainer {
   border: 1px solid #ddd;
   border-radius: 6px;
-  font-family: 'Courier New', monospace;
-  font-size: 0.95rem;
-  resize: vertical;
+  overflow: hidden;
 }
 
-#sqlEditor:focus {
-  outline: none;
+.CodeMirror {
+  height: 200px;
+  font-size: 14px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+}
+
+.CodeMirror-hints {
+  z-index: 1000;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+  font-size: 13px;
+}
+
+.CodeMirror-hint {
+  padding: 4px 8px;
+}
+
+.CodeMirror-focused {
   border-color: #667eea;
 }
 
