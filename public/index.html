@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Practice Platform</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎯 SQL Practice Platform</h1>
+      <p>Master SQL with hands-on challenges</p>
+    </header>
+
+    <div class="main-content">
+      <aside class="sidebar">
+        <h2>Problems</h2>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="easy">Easy</button>
+          <button class="filter-btn" data-filter="medium">Medium</button>
+          <button class="filter-btn" data-filter="hard">Hard</button>
+          <button class="filter-btn" data-filter="expert">Expert</button>
+        </div>
+        <div id="problemList" class="problem-list"></div>
+      </aside>
+
+      <main class="content">
+        <div id="welcomeScreen" class="welcome">
+          <h2>Welcome to SQL Practice!</h2>
+          <p>Select a problem from the sidebar to get started.</p>
+          <div class="schema-preview">
+            <h3>Database Schema</h3>
+            <div id="schemaInfo"></div>
+          </div>
+        </div>
+
+        <div id="problemScreen" class="problem-screen" style="display: none;">
+          <div class="problem-header">
+            <h2 id="problemTitle"></h2>
+            <span id="problemDifficulty" class="badge"></span>
+          </div>
+          <p id="problemDescription"></p>
+
+          <div class="editor-section">
+            <div class="editor-header">
+              <span>SQL Editor</span>
+              <button id="runBtn" class="btn btn-primary">Run Query</button>
+            </div>
+            <textarea id="sqlEditor" placeholder="Write your SQL query here..."></textarea>
+          </div>
+
+          <div id="resultSection" class="result-section" style="display: none;">
+            <div class="result-header">
+              <span>Results</span>
+              <span id="resultMessage"></span>
+            </div>
+            <div id="resultTable"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
