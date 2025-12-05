@@ -212,20 +212,37 @@ function showSolution() {
 // Initialize CodeMirror editor
 function initEditor() {
   const container = document.getElementById('sqlEditorContainer');
-  editor = CodeMirror(container, {
-    mode: 'text/x-sql',
-    theme: 'material',
-    lineNumbers: true,
-    lineWrapping: true,
-    autofocus: false,
-    extraKeys: {
-      'Ctrl-Space': 'autocomplete',
-      'Cmd-Space': 'autocomplete'
-    },
-    hintOptions: {
-      tables: {}
-    }
-  });
+  if (!container) {
+    console.error('Editor container not found');
+    return;
+  }
+  
+  if (typeof CodeMirror === 'undefined') {
+    console.error('CodeMirror not loaded');
+    return;
+  }
+  
+  try {
+    editor = CodeMirror(container, {
+      mode: 'text/x-sql',
+      theme: 'material',
+      lineNumbers: true,
+      lineWrapping: true,
+      autofocus: false,
+      placeholder: 'Write your SQL query here...',
+      extraKeys: {
+        'Ctrl-Space': 'autocomplete',
+        'Cmd-Space': 'autocomplete'
+      },
+      hintOptions: {
+        tables: {}
+      }
+    });
+    
+    console.log('CodeMirror editor initialized successfully');
+  } catch (error) {
+    console.error('Failed to initialize CodeMirror:', error);
+  }
 }
 
 // Update editor hints with current schema
@@ -240,21 +257,26 @@ function updateEditorHints(schema) {
   editor.setOption('hintOptions', { tables });
 }
 
-// Event listeners
-document.getElementById('runBtn').addEventListener('click', executeQuery);
-document.getElementById('showHintBtn').addEventListener('click', showHint);
-document.getElementById('showSolutionBtn').addEventListener('click', showSolution);
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize CodeMirror
+  initEditor();
+  
+  // Event listeners
+  document.getElementById('runBtn').addEventListener('click', executeQuery);
+  document.getElementById('showHintBtn').addEventListener('click', showHint);
+  document.getElementById('showSolutionBtn').addEventListener('click', showSolution);
 
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentFilter = btn.dataset.filter;
-    renderProblems();
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      renderProblems();
+    });
   });
-});
 
-// Initialize
-initEditor();
-loadProblems();
-loadSchema();
+  // Load initial data
+  loadProblems();
+  loadSchema();
+});
