@@ -33,6 +33,17 @@
         <div id="welcomeScreen" class="welcome">
           <h2>Welcome to SQL Practice!</h2>
           <p>Select a problem from the sidebar to get started.</p>
+          
+          <div class="quick-tips">
+            <h3>Quick Tips</h3>
+            <ul>
+              <li><strong>Autocomplete:</strong> Press <kbd>Ctrl+Space</kbd> (or <kbd>Cmd+Space</kbd> on Mac) while typing to see table and column suggestions</li>
+              <li><strong>Hints:</strong> Click "Show Hint" if you need a nudge in the right direction</li>
+              <li><strong>Solutions:</strong> Click "Show Solution" to see the answer and explanation</li>
+              <li><strong>Validation:</strong> Your query results are automatically checked against the expected output</li>
+            </ul>
+          </div>
+
           <div class="schema-preview">
             <h3>Database Schema</h3>
             <div id="schemaInfo"></div>
@@ -60,6 +71,10 @@
                 <button id="showSolutionBtn" class="btn btn-secondary">Show Solution</button>
                 <button id="runBtn" class="btn btn-primary">Run Query</button>
               </div>
+            </div>
+            <div class="editor-tip">
+              <span class="tip-icon">💡</span>
+              <span class="tip-text">Press <kbd>Ctrl+Space</kbd> (or <kbd>Cmd+Space</kbd> on Mac) for autocomplete suggestions</span>
             </div>
             <div id="sqlEditorContainer"></div>
           </div>
